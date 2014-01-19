@@ -7,12 +7,4 @@
 .settings
 .project
 *.class
-root
 target
-__pycache__
-*.pyc
-testdata
-build
-dist
-kenja.egg-info
-kenja/lib/java-parser.jar
