@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>kenja</groupId>
-	<artifactId>kenja</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>jp.naist.sd.kenja</groupId>
+	<artifactId>kenja-java-parser</artifactId>
+	<version>0.1</version>
 	<build>
 		<plugins>
 
@@ -23,16 +23,11 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<archive>
-					<manifest>
-						<mainClass>jp.naist.sd.kenja.git.Git2Historage</mainClass>
-					</manifest>
+						<manifest>
+							<mainClass>jp.naist.sd.kenja.factextractor.GitTreeCreator</mainClass>
+						</manifest>
 					</archive>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
