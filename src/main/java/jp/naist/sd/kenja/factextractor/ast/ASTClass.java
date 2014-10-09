@@ -10,6 +10,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 public class ASTClass extends ASTType {
 
 	private final String FIELD_ROOT_NAME = "[FE]";
@@ -35,6 +38,7 @@ public class ASTClass extends ASTType {
 		root.append(constructorRoot);
 
 		//HashSet<String> tmpHashSet = new HashSet<String>();
+		Multimap<String, ASTMethod> methodMap = HashMultimap.create();
 		for (MethodDeclaration methodDec : typeDec.getMethods()) {
 			//if(tmpHashSet.contains(methodDec.getName().toString())){
 			//	System.out.println(methodDec.getName());
@@ -42,11 +46,20 @@ public class ASTClass extends ASTType {
 			//}
 			//tmpHashSet.add(methodDec.getName().toString());
 			ASTMethod method = ASTMethod.fromMethodDeclaralation(methodDec);
+
 			if(method.isConstructor()){
 				constructorRoot.append(method.getTree());
 			}
 			else{
 				methodRoot.append(method.getTree());
+				if (methodMap.containsKey(method.getName())) {
+					int i = 0;
+					for (ASTMethod astMethod : methodMap.get(method.getName())) {
+						astMethod.conflict(i++);
+					}
+					method.conflict(i);
+				}
+				methodMap.put(method.getName(), method);
 			}
 			// TODO overload methods
 		}
