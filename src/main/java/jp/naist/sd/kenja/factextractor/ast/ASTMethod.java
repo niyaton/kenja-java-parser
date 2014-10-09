@@ -21,12 +21,15 @@ public class ASTMethod implements Treeable{
 	
 	private boolean isConstructor;
 	
+	private String rootTreeName;
+	
 	protected ASTMethod(){
 		
 	}
 	
 	protected ASTMethod(MethodDeclaration node){
-		root = new Tree(getTreeName(node));
+		rootTreeName = getTreeName(node);
+		root = new Tree(rootTreeName);
 		
 		isConstructor = node.isConstructor();
 		setBody(node);
@@ -72,6 +75,18 @@ public class ASTMethod implements Treeable{
 			parameterBody += "\n";
 		}
 		parameters.setBody(parameterBody);
+	}
+	
+	public String getName(){
+		return rootTreeName;
+	}
+	
+	public void conflict(int number){
+		StringBuilder builder = new StringBuilder();
+		builder.append(rootTreeName);
+		builder.append(".conflicted");
+		builder.append(number);
+		root.setName(builder.toString());
 	}
 	
 	public boolean isConstructor(){
