@@ -17,10 +17,12 @@ public class ASTClass extends ASTType {
 
 	private final String FIELD_ROOT_NAME = "[FE]";
 	private final String CONSTURCTOR_ROOT_NAME = "[CS]";
+	private final String INNER_CLASS_ROOT_NAME = "[CN]";
 
 	private Tree fieldRoot = new Tree(FIELD_ROOT_NAME);
 	private Tree constructorRoot = new Tree(CONSTURCTOR_ROOT_NAME);
-	
+	private Tree innerClassRoot = new Tree(INNER_CLASS_ROOT_NAME);
+
 	private Blob superClass = null;
 
 	protected ASTClass(TypeDeclaration typeDec) {
@@ -69,6 +71,15 @@ public class ASTClass extends ASTType {
 			astField.parseFieldDeclaration(fieldDec);
 		}
 		fieldRoot.addAll(astField.getBlobs());
+
+		if (typeDec.getTypes().length > 0) {
+			root.append(innerClassRoot);
+			for (TypeDeclaration innerTypeDec : typeDec.getTypes()) {
+				ASTClass innnerClass = ASTClass
+						.fromTypeDeclaration(innerTypeDec);
+				innerClassRoot.append(innnerClass.getTree());
+			}
+		}
 	}
 
 	public static ASTClass fromTypeDeclaration(TypeDeclaration node) {
