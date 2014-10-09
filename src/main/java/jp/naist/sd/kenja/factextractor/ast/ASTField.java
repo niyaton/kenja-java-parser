@@ -12,18 +12,18 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 public class ASTField implements Blobable{
 
 	private List<Blob> blobs = new ArrayList<Blob>();
-	
-	protected ASTField(FieldDeclaration node){
+
+	public ASTField(){
+
+	}
+
+	public void parseFieldDeclaration(FieldDeclaration node) {
 		for(Object obj: node.fragments()){
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment)obj;
 			blobs.add(new Blob(fragment.getName().toString()));
 		}
 	}
 	
-	public static ASTField fromFieldDeclaration(FieldDeclaration node){
-		return new ASTField(node);
-	}
-
 	@Override
 	public Iterable<Blob> getBlobs() {
 		return blobs;
