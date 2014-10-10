@@ -65,8 +65,18 @@ public class ASTClass extends ASTType {
 		}
 
 		for (FieldDeclaration fieldDec : typeDec.getFields()) {
+			
 			ASTField field = ASTField.fromFieldDeclaration(fieldDec);
+			for(Blob blob:field.getBlobs()){
+				String blob_name = blob.getName().toString();
+				if(fieldRoot.hasBlob(blob_name)) {
+					blob.setName(blob_name+"_conflicted");					
+				}
+				
+			}
+			
 			fieldRoot.addAll(field.getBlobs());
+			
 		}
 	}
 
