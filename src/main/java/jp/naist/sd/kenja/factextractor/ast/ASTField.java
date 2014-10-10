@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import java.lang.reflect.Modifier;
 
 public class ASTField implements Blobable{
 
@@ -21,11 +22,15 @@ public class ASTField implements Blobable{
 		
 		for(Object obj: node.fragments()){
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment)obj;
-			String fieldName = fragment.getName().toString();
-			String fieldModifier = node.modifiers().toString();			
-	//		System.out.println(fieldModifier);
+			int fieldModifier = node.getModifiers();		
 			
-			Blob fieldBlob = new Blob(fieldModifier,fieldName);
+			//System.out.println(node.modifiers());
+			//System.out.println(node.getModifiers());
+			
+			String fieldVisibility = getVisibility(fieldModifier);
+			
+			String fieldName = fragment.getName().toString();
+			Blob fieldBlob = new Blob(fieldVisibility  + "\n" ,fieldName);
 			
 			if(fieldMap.containsKey(fieldName)){
 				int i = 0;
@@ -42,6 +47,20 @@ public class ASTField implements Blobable{
 		String newName = fieldName + ".conflicted" + numConflicted;
 		blob.setName(newName);		
 	}
+	
+	private String getVisibility(int modifier){
+		if(Modifier.isPrivate(modifier)){	
+		return "[private]";
+		}else if(Modifier.isProtected(modifier)){
+			return "[protected]";
+		}
+		else if(Modifier.isPublic(modifier)){	
+			return "[public]";
+		}else{
+			return "[internal]";
+		}
+	}
+	
 	
 	@Override
 	public Iterable<Blob> getBlobs() {
