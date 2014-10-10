@@ -18,11 +18,15 @@ public class ASTField implements Blobable{
 	}
 
 	public void parseFieldDeclaration(FieldDeclaration node) {
+		
 		for(Object obj: node.fragments()){
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment)obj;
 			String fieldName = fragment.getName().toString();
-			Blob fieldBlob = new Blob(fieldName);
-
+			String fieldModifier = node.modifiers().toString();			
+	//		System.out.println(fieldModifier);
+			
+			Blob fieldBlob = new Blob(fieldModifier,fieldName);
+			
 			if(fieldMap.containsKey(fieldName)){
 				int i = 0;
 				for(Blob field : fieldMap.get(fieldName)){
@@ -36,7 +40,7 @@ public class ASTField implements Blobable{
 	
 	private void conflict(Blob blob, String fieldName, int numConflicted){	
 		String newName = fieldName + ".conflicted" + numConflicted;
-		blob.setName(newName);
+		blob.setName(newName);		
 	}
 	
 	@Override
