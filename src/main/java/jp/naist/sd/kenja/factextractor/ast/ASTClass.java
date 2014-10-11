@@ -64,10 +64,11 @@ public class ASTClass extends ASTType {
 			// TODO overload methods
 		}
 
+		ASTField astField = new ASTField();
 		for (FieldDeclaration fieldDec : typeDec.getFields()) {
-			ASTField field = ASTField.fromFieldDeclaration(fieldDec);
-			fieldRoot.addAll(field.getBlobs());
+			astField.parseFieldDeclaration(fieldDec);
 		}
+		fieldRoot.addAll(astField.getBlobs());
 	}
 
 	public static ASTClass fromTypeDeclaration(TypeDeclaration node) {
