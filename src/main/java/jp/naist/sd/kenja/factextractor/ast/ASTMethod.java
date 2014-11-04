@@ -1,5 +1,6 @@
 package jp.naist.sd.kenja.factextractor.ast;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import jp.naist.sd.kenja.factextractor.Blob;
@@ -13,11 +14,13 @@ public class ASTMethod implements Treeable{
 	
 	private Blob body;
 	private Blob parameters;
+	private Blob modifiers;
 	
 	private Tree root; 
 	
 	private static final String BODY_BLOB_NAME = "body";
 	private static final String PARAMETERS_BLOB_NAME = "parameters";
+	private static final String MODIFIERS_BLOB_NAME = "modifiers";
 	
 	private boolean isConstructor;
 	
@@ -34,6 +37,9 @@ public class ASTMethod implements Treeable{
 		isConstructor = node.isConstructor();
 		setBody(node);
 		setParameters(node.parameters());
+		
+		int methodModifiers = node.getModifiers();
+		setModifiers(methodModifiers);
 	}
 	
 	private String getTreeName(MethodDeclaration node){
@@ -59,8 +65,8 @@ public class ASTMethod implements Treeable{
 			body.setBody("");
 		else
 			body.setBody(node.getBody().toString());
-		
-		root.append(body);	
+
+		root.append(body);
 	}
 	
 	private void setParameters(List parametersList){	
@@ -76,7 +82,22 @@ public class ASTMethod implements Treeable{
 		}
 		parameters.setBody(parameterBody);
 	}
-	
+
+	private void setModifiers(int modifiers_num){
+		modifiers = new Blob(MODIFIERS_BLOB_NAME);
+		root.append(modifiers);
+		
+		if (Modifier.isPrivate(modifiers_num)) {
+			modifiers.setBody("private\n");
+		} else if (Modifier.isProtected(modifiers_num)) {
+			modifiers.setBody("protected\n");
+		} else if (Modifier.isPublic(modifiers_num)) {
+			modifiers.setBody("public\n");
+		} else {
+			modifiers.setBody("internal\n");
+		}
+	}
+
 	public String getName() {
 		return rootTreeName;
 	}
