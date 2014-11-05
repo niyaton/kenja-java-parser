@@ -4,7 +4,7 @@
 
 # Development
 ## Create eclipse project
-```
-$mvn eclipse:eclipse
+```sh
+mvn eclipse:eclipse
 ```
 
