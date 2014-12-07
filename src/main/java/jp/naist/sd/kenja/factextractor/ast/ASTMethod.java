@@ -42,6 +42,9 @@ public class ASTMethod implements Treeable{
 		for(Object item: node.parameters()){
 			SingleVariableDeclaration parameter = (SingleVariableDeclaration)item;
 			result.append(parameter.getType().toString());
+			for(int i = 0; i < parameter.getExtraDimensions(); i++){
+				result.append("[]");
+			}
 			//result.append(" ");
 			//result.append(parameter.getName());
 			result.append(",");
@@ -72,6 +75,9 @@ public class ASTMethod implements Treeable{
 			parameterBody += parameter.getType().toString();
 			parameterBody += " ";
 			parameterBody += parameter.getName();
+			for(int i = 0; i < parameter.getExtraDimensions(); i++){
+				parameterBody += "[]";
+			}
 			parameterBody += "\n";
 		}
 		parameters.setBody(parameterBody);

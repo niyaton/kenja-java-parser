@@ -36,7 +36,7 @@ public class ASTClass extends ASTType {
 			root.append(superClass);
 		}
 		
-		root.append(fieldRoot);
+		//root.append(fieldRoot);
 		root.append(constructorRoot);
 
 		//HashSet<String> tmpHashSet = new HashSet<String>();
