@@ -47,18 +47,20 @@ public class ASTMethod implements Treeable {
       result.append(",");
     }
     int lastIndex = result.lastIndexOf(",");
-    if (lastIndex > 0)
+    if (lastIndex > 0) {
       result.deleteCharAt(lastIndex);
+    }
     result.append(")");
     return result.toString();
   }
 
   private void setBody(MethodDeclaration node) {
     body = new Blob(BODY_BLOB_NAME);
-    if (node.getBody() == null)
+    if (node.getBody() == null) {
       body.setBody("");
-    else
+    } else {
       body.setBody(node.getBody().toString());
+    }
 
     root.append(body);
   }

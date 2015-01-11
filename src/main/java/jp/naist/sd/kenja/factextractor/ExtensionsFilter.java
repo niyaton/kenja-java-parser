@@ -14,8 +14,9 @@ public class ExtensionsFilter implements FilenameFilter {
   @Override
   public boolean accept(File dir, String name) {
     for (String extension : extensions) {
-      if (name.endsWith(extension))
+      if (name.endsWith(extension)) {
         return true;
+      }
     }
     return false;
   }

@@ -26,8 +26,9 @@ public class FileFormatTreeWriter implements TreeWriter {
     File parentDir = currentDir;
     if (!tree.isRoot()) {
       currentDir = new File(currentDir, tree.getName());
-      if (!currentDir.exists())
+      if (!currentDir.exists()) {
         currentDir.mkdir();
+      }
     }
 
     for (Blob blob : tree.getBlobs()) {
@@ -41,8 +42,9 @@ public class FileFormatTreeWriter implements TreeWriter {
   }
 
   public void writeBlob(Blob blob) throws IOException {
-    if (!currentDir.exists())
+    if (!currentDir.exists()) {
       Files.createParentDirs(currentDir);
+    }
     currentDir.mkdir();
     File blobFile = new File(currentDir, blob.getName());
     blobFile.createNewFile();

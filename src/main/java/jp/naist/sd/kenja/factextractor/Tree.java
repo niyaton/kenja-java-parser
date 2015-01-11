@@ -55,16 +55,18 @@ public class Tree {
   }
 
   public boolean has(String name) {
-    if (hasTree(name))
+    if (hasTree(name)) {
       return true;
+    }
 
     return hasBlob(name);
   }
 
   public Tree getChild(String name) {
     for (Tree t : trees) {
-      if (t.getName().equals(name))
+      if (t.getName().equals(name)) {
         return t;
+      }
     }
 
     return null;
@@ -72,8 +74,9 @@ public class Tree {
 
   public boolean hasBlob(String name) {
     for (Blob b : blobs) {
-      if (b.getName().equals(name))
+      if (b.getName().equals(name)) {
         return true;
+      }
     }
 
     return false;
@@ -81,8 +84,9 @@ public class Tree {
 
   public boolean hasTree(String name) {
     for (Tree t : trees) {
-      if (t.getName().equals(name))
+      if (t.getName().equals(name)) {
         return true;
+      }
     }
     return false;
   }

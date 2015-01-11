@@ -17,8 +17,9 @@ public class SourcecodeFinder {
 
   private FileFilter directoryFilter = new FileFilter() {
     public boolean accept(File file) {
-      if (file.isDirectory())
+      if (file.isDirectory()) {
         return true;
+      }
       return false;
     }
   };
@@ -38,8 +39,9 @@ public class SourcecodeFinder {
 
   private void findSourcecode() {
     File base = new File(basePath);
-    if (!base.isDirectory())
+    if (!base.isDirectory()) {
       return;
+    }
     findSourcecode(base);
   }
 
