@@ -1,13 +1,13 @@
 package jp.naist.sd.kenja.factextractor.ast;
 
-import java.util.HashSet;
+//import java.util.HashSet;
 
 import jp.naist.sd.kenja.factextractor.Blob;
 import jp.naist.sd.kenja.factextractor.Tree;
 
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.Type;
+//import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import com.google.common.collect.HashMultimap;
