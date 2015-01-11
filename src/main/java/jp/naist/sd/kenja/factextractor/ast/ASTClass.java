@@ -13,18 +13,54 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+/**
+ * A class which represents Class of Java for Historage.
+ * 
+ * @author Kenji Fujiwara
+ */
 public class ASTClass extends ASTType {
 
+  /**
+   * Name of root directory which store fields.
+   */
   private final String FIELD_ROOT_NAME = "[FE]";
+
+  /**
+   * Name of root directory which store constructors.
+   */
   private final String CONSTURCTOR_ROOT_NAME = "[CS]";
+
+  /**
+   * Name of root directory which store inner classes.
+   */
   private final String INNER_CLASS_ROOT_NAME = "[CN]";
 
+  /**
+   * root Tree of fields.
+   */
   private Tree fieldRoot = new Tree(FIELD_ROOT_NAME);
+
+  /**
+   * root Tree of constructors.
+   */
   private Tree constructorRoot = new Tree(CONSTURCTOR_ROOT_NAME);
+
+  /**
+   * root Tree of inner classes.
+   */
   private Tree innerClassRoot = new Tree(INNER_CLASS_ROOT_NAME);
 
+  /**
+   * Blob which represents super class of the class.
+   */
   private Blob superClass = null;
 
+  /**
+   * Construct ASTClass from Eclipse AST TypeDeclaration class.
+   * 
+   * @param typeDec
+   *          TypeDeclaration class of Eclipse AST.
+   */
   protected ASTClass(TypeDeclaration typeDec) {
     super(typeDec.getName().toString());
 
@@ -80,6 +116,13 @@ public class ASTClass extends ASTType {
     }
   }
 
+  /**
+   * Factory Method of ASTClass.
+   * 
+   * @param node
+   *          A TypeDeclaration of the class.
+   * @return ASTClass which is corresponding to node.
+   */
   public static ASTClass fromTypeDeclaration(TypeDeclaration node) {
     return new ASTClass(node);
   }
