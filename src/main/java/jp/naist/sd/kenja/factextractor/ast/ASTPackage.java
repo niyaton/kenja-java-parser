@@ -10,36 +10,35 @@ import jp.naist.sd.kenja.factextractor.Treeable;
 
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 
-public class ASTPackage implements Blobable{
+public class ASTPackage implements Blobable {
 
-	public static final String PACKAGE_BLOB_NAME = "package";
+  public static final String PACKAGE_BLOB_NAME = "package";
 
-	private String packageName;
+  private String packageName;
 
-	private Blob blob;
-	
-	private List<Blob> blobs = new ArrayList<Blob>();
+  private Blob blob;
 
-	protected ASTPackage() {
+  private List<Blob> blobs = new ArrayList<Blob>();
 
-	}
+  protected ASTPackage() {
 
-	protected ASTPackage(PackageDeclaration packageDec) {
-		packageName = packageDec.getName().toString();
+  }
 
-		blob = new Blob(PACKAGE_BLOB_NAME);
-		blob.setBody(packageName);
-		blobs.add(blob);
-	}
+  protected ASTPackage(PackageDeclaration packageDec) {
+    packageName = packageDec.getName().toString();
 
-	public static ASTPackage fromPackageDeclaration(
-			PackageDeclaration packageDec) {
-		return new ASTPackage(packageDec);
-	}
+    blob = new Blob(PACKAGE_BLOB_NAME);
+    blob.setBody(packageName);
+    blobs.add(blob);
+  }
 
-	@Override
-	public Iterable<Blob> getBlobs() {
-		return blobs;
-	}
+  public static ASTPackage fromPackageDeclaration(PackageDeclaration packageDec) {
+    return new ASTPackage(packageDec);
+  }
+
+  @Override
+  public Iterable<Blob> getBlobs() {
+    return blobs;
+  }
 
 }
