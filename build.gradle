@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  compile group: 'org.eclipse.core', name: 'org.eclipse.core.runtime', version: '3.6.0.v20100505'
+  compile group: 'org.eclipse.osgi', name: 'org.eclipse.osgi', version: '3.6.0.v20100517'
+  compile group: 'org.eclipse.core', name: 'org.eclipse.core.jobs', version: '3.5.0.v20100515'
+  compile group: 'org.eclipse.core', name: 'org.eclipse.core.resources', version: '3.6.0.v20100526-0737'
+  compile group: 'org.eclipse.equinox', name: 'org.eclipse.equinox.common', version: '3.6.0.v20100503'
+  compile group: 'org.eclipse.equinox', name: 'org.eclipse.equinox.preferences', version:'3.3.0.v20100503'
+  compile group: 'org.eclipse.core', name: 'org.eclipse.core.contenttype', version: '3.4.100.v20100505-1235'
+  compile group: 'com.google.guava', name: 'guava', version: '13.0.1'
+  compile group: 'org.eclipse.tycho', name: 'org.eclipse.jdt.core', version: '3.8.1.v20120531-0637'
+  compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '2.0.0.201206130900-r'
+  compile group: 'commons-io', name: 'commons-io', version: '2.4'
+  compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+  testCompile group: 'junit', name: 'junit', version: '4.8.1'
+  compile 'com.puppycrawl.tools:checkstyle:6.2'
+}
+
+task fatJar(type: Jar) {
+  manifest {
+    attributes 'Main-Class' : 'jp.naist.sd.kenja.factextractor.GitTreeCreator'
+  }
+  baseName = project.name + '-all'
+  from ({ configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }){
+    // remove all signature files
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+  }
+  with jar
+}
