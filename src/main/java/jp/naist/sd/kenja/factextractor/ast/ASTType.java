@@ -5,7 +5,7 @@ import jp.naist.sd.kenja.factextractor.Treeable;
 
 public abstract class ASTType implements Treeable {
 
-  private final String METHOD_ROOT_NAME = "[MT]";
+  private static final String METHOD_ROOT_NAME = "[MT]";
 
   protected Tree root;
 

@@ -32,12 +32,12 @@ public class ASTCompilation implements Treeable {
   /**
    * Name of root directory which store classes.
    */
-  private final String CLASS_ROOT_NAME = "[CN]";
+  private static final String CLASS_ROOT_NAME = "[CN]";
 
   /**
    * Name of root directory which store interfaces.
    */
-  private final String INTERFACE_ROOT_NAME = "[IN]";
+  private static final String INTERFACE_ROOT_NAME = "[IN]";
 
   /**
    * root Tree of classes.
@@ -148,13 +148,13 @@ public class ASTCompilation implements Treeable {
    *          compilation unit of Eclipse AST
    */
   public void addTypes(CompilationUnit unit) {
-    for (Object o : unit.types()) {
-      TypeDeclaration typeDec = (TypeDeclaration) o;
+    for (Object obj : unit.types()) {
+      TypeDeclaration typeDec = (TypeDeclaration) obj;
       if (typeDec.isInterface()) {
         // ASTInterface i = ASTInterface.
       } else {
-        ASTClass c = ASTClass.fromTypeDeclaration(typeDec);
-        getClassRoot().append(c.getTree());
+        ASTClass astClass = ASTClass.fromTypeDeclaration(typeDec);
+        getClassRoot().append(astClass.getTree());
       }
     }
   }

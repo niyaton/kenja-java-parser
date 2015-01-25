@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class Tree {
 
-  private final String ROOT_NAME = "";
+  private static final String ROOT_NAME = "";
 
   private List<Blob> blobs = new ArrayList<Blob>();
   private List<Tree> trees = new ArrayList<Tree>();
@@ -63,9 +63,9 @@ public class Tree {
   }
 
   public Tree getChild(String name) {
-    for (Tree t : trees) {
-      if (t.getName().equals(name)) {
-        return t;
+    for (Tree tree : trees) {
+      if (tree.getName().equals(name)) {
+        return tree;
       }
     }
 
@@ -73,8 +73,8 @@ public class Tree {
   }
 
   public boolean hasBlob(String name) {
-    for (Blob b : blobs) {
-      if (b.getName().equals(name)) {
+    for (Blob blob : blobs) {
+      if (blob.getName().equals(name)) {
         return true;
       }
     }
@@ -83,8 +83,8 @@ public class Tree {
   }
 
   public boolean hasTree(String name) {
-    for (Tree t : trees) {
-      if (t.getName().equals(name)) {
+    for (Tree tree : trees) {
+      if (tree.getName().equals(name)) {
         return true;
       }
     }
@@ -99,18 +99,18 @@ public class Tree {
 
     while (!treeStack.empty()) {
       Pair<String, Tree> pair = treeStack.pop();
-      Tree tree = pair.getRight();
+      Tree currentTree = pair.getRight();
       prefix = pair.getLeft();
 
-      if (!tree.isRoot()) {
-        prefix += tree.name + "/";
+      if (!currentTree.isRoot()) {
+        prefix += currentTree.name + "/";
         result.add(prefix);
       }
 
       result.addAll(getBlobsPath(prefix));
 
-      for (Tree t : tree.trees) {
-        treeStack.add(Pair.of(prefix, t));
+      for (Tree tree : currentTree.trees) {
+        treeStack.add(Pair.of(prefix, tree));
       }
     }
 

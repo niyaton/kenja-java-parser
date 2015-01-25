@@ -23,17 +23,17 @@ public class ASTClass extends ASTType {
   /**
    * Name of root directory which store fields.
    */
-  private final String FIELD_ROOT_NAME = "[FE]";
+  private static final String FIELD_ROOT_NAME = "[FE]";
 
   /**
    * Name of root directory which store constructors.
    */
-  private final String CONSTURCTOR_ROOT_NAME = "[CS]";
+  private static final String CONSTURCTOR_ROOT_NAME = "[CS]";
 
   /**
    * Name of root directory which store inner classes.
    */
-  private final String INNER_CLASS_ROOT_NAME = "[CN]";
+  private static final String INNER_CLASS_ROOT_NAME = "[CN]";
 
   /**
    * root Tree of fields.
@@ -90,11 +90,11 @@ public class ASTClass extends ASTType {
       } else {
         methodRoot.append(method.getTree());
         if (methodMap.containsKey(method.getName())) {
-          int i = 0;
+          int numConflicted = 0;
           for (ASTMethod astMethod : methodMap.get(method.getName())) {
-            astMethod.conflict(i++);
+            astMethod.conflict(numConflicted++);
           }
-          method.conflict(i);
+          method.conflict(numConflicted);
         }
         methodMap.put(method.getName(), method);
       }

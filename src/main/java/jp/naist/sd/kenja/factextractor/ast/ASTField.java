@@ -46,11 +46,11 @@ public class ASTField implements Blobable {
       Blob fieldBlob = new Blob(fieldVisibility + "\n", fieldName);
 
       if (fieldMap.containsKey(fieldName)) {
-        int i = 0;
+        int numConflicted = 0;
         for (Blob field : fieldMap.get(fieldName)) {
-          conflict(field, fieldName, i++);
+          conflict(field, fieldName, numConflicted++);
         }
-        conflict(fieldBlob, fieldName, i);
+        conflict(fieldBlob, fieldName, numConflicted);
       }
       fieldMap.put(fieldName, fieldBlob);
     }
