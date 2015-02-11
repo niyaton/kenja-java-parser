@@ -89,6 +89,13 @@ public class ASTCompilation implements Treeable {
       }
     }
 
+    if (typeRoot.has(INTERFACE_ROOT_NAME)) { 
+      interfaceRoot = typeRoot.getChild(INTERFACE_ROOT_NAME);
+    } else {
+      interfaceRoot = new Tree(INTERFACE_ROOT_NAME);
+      typeRoot.append(interfaceRoot);
+    }
+
     addTypes(unit);
   }
 
@@ -118,7 +125,22 @@ public class ASTCompilation implements Treeable {
     return classRoot;
 
   }
-  
+
+  private Tree getInterfaceRoot(){
+    if(interfaceRoot == null){
+      interfaceRoot = new Tree(INTERFACE_ROOT_NAME);
+      getTypeRoot().append(interfaceRoot);
+    }
+    return interfaceRoot;
+  }
+
+  private Tree getTypeRoot(){
+    if(pack == null){
+      return root;
+    }
+    return pack.getLeaf();
+  }
+
   /**
    * add classes and interfaces to compilation unit.
    * 
