@@ -30,9 +30,9 @@ public class GitTreeCreator {
     compilation = new ASTCompilation(unit, root);
   }
 
-  public void writeASTAsFileTree(File outputDir) {
+  public void writeASTAsFileTree(File outputFile) {
     try {
-      TreeWriter writer = new TextFormatTreeWriter(outputDir);
+      TreeWriter writer = new TextFormatTreeWriter(outputFile);
       writer.writeTree(compilation.getTree());
     } catch (IOException e) {
       e.printStackTrace();
@@ -41,16 +41,16 @@ public class GitTreeCreator {
 
   public static void main(String[] args) {
     if (args.length != 1) {
-      System.out.println("please input output dir path");
+      System.out.println("please input path of output file.");
       return;
     }
 
-    File outputDir = new File(args[0]);
+    File outputFile = new File(args[0]);
     GitTreeCreator creator = new GitTreeCreator();
 
     try {
       creator.parseSourcecode(IOUtils.toCharArray(System.in));
-      creator.writeASTAsFileTree(outputDir);
+      creator.writeASTAsFileTree(outputFile);
     } catch (IOException e) {
       e.printStackTrace();
     }
