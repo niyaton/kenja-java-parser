@@ -28,6 +28,10 @@ public class ASTPackage implements Blobable {
     packageName = packageDec.getName().toString();
 
     blob = new Blob(PACKAGE_BLOB_NAME);
+    if (!packageName.endsWith("\n")) {
+      packageName += "\n";
+    }
+
     blob.setBody(packageName);
     blobs.add(blob);
   }
