@@ -64,9 +64,7 @@ public class ASTClass extends ASTType {
   protected ASTClass(TypeDeclaration typeDec) {
     super(typeDec.getName().toString());
 
-    // System.out.println(typeDec.getSuperclass());
     if (typeDec.getSuperclassType() != null) {
-      // System.out.println(typeDec.getSuperclassType().toString());
       superClass = new Blob("extend");
       superClass.setBody(typeDec.getSuperclassType().toString() + "\n");
       root.append(superClass);
@@ -75,14 +73,8 @@ public class ASTClass extends ASTType {
     root.append(fieldRoot);
     root.append(constructorRoot);
 
-    // HashSet<String> tmpHashSet = new HashSet<String>();
     Multimap<String, ASTMethod> methodMap = HashMultimap.create();
     for (MethodDeclaration methodDec : typeDec.getMethods()) {
-      // if(tmpHashSet.contains(methodDec.getName().toString())){
-      // System.out.println(methodDec.getName());
-      // continue;
-      // }
-      // tmpHashSet.add(methodDec.getName().toString());
       ASTMethod method = ASTMethod.fromMethodDeclaralation(methodDec);
 
       if (method.isConstructor()) {
@@ -98,7 +90,6 @@ public class ASTClass extends ASTType {
         }
         methodMap.put(method.getName(), method);
       }
-      // TODO overload methods
     }
 
     ASTField astField = new ASTField();
