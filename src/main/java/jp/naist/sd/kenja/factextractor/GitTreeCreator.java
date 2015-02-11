@@ -11,49 +11,49 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-public class GitTreeCreator{
-	private Tree root = new Tree("");
-	
-	private ASTCompilation compilation;
-	
-	public GitTreeCreator(){
-	}
-	
-	private void parseSourcecode(char[] src) {
-		ASTParser parser = ASTParser.newParser(AST.JLS4);
+public class GitTreeCreator {
+  private Tree root = new Tree("");
 
-		parser.setSource(src);
+  private ASTCompilation compilation;
 
-		NullProgressMonitor nullMonitor = new NullProgressMonitor();
-		CompilationUnit unit = (CompilationUnit) parser.createAST(nullMonitor);
-		
-		compilation = new ASTCompilation(unit, root);
-	}
-	
-	public void writeASTAsFileTree(File outputDir){
-		try {
-			TreeWriter writer = new TextFormatTreeWriter(outputDir);
-			writer.writeTree(compilation.getTree());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//compilation.getTree().writeTree(outputDir);
-	}
+  public GitTreeCreator() {
+  }
 
-	public static void main(String[] args){
-		if(args.length != 1){
-			System.out.println("please input output dir path");
-			return;
-		}
-		
-		File outputDir = new File(args[0]);
-		GitTreeCreator creator = new GitTreeCreator();
-			
-		try {
-			creator.parseSourcecode(IOUtils.toCharArray(System.in));
-			creator.writeASTAsFileTree(outputDir);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  private void parseSourcecode(char[] src) {
+    ASTParser parser = ASTParser.newParser(AST.JLS4);
+
+    parser.setSource(src);
+
+    NullProgressMonitor nullMonitor = new NullProgressMonitor();
+    CompilationUnit unit = (CompilationUnit) parser.createAST(nullMonitor);
+
+    compilation = new ASTCompilation(unit, root);
+  }
+
+  public void writeASTAsFileTree(File outputDir) {
+    try {
+      TreeWriter writer = new TextFormatTreeWriter(outputDir);
+      writer.writeTree(compilation.getTree());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    // compilation.getTree().writeTree(outputDir);
+  }
+
+  public static void main(String[] args) {
+    if (args.length != 1) {
+      System.out.println("please input output dir path");
+      return;
+    }
+
+    File outputDir = new File(args[0]);
+    GitTreeCreator creator = new GitTreeCreator();
+
+    try {
+      creator.parseSourcecode(IOUtils.toCharArray(System.in));
+      creator.writeASTAsFileTree(outputDir);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
