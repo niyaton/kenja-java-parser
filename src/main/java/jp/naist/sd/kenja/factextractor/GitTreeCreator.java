@@ -37,7 +37,6 @@ public class GitTreeCreator {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    // compilation.getTree().writeTree(outputDir);
   }
 
   public static void main(String[] args) {
