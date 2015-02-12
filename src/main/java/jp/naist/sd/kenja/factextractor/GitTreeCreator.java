@@ -52,6 +52,7 @@ public class GitTreeCreator {
 
       for (String line : IOUtils.readLines(System.in)) {
         line = StringUtils.strip(line);
+        root = new Tree("");
 
         ObjectId obj = ObjectId.fromString(line);
         ObjectLoader loader = repo.open(obj);
