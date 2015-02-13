@@ -1,6 +1,8 @@
 package jp.naist.sd.kenja.factextractor;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.IOException;
 
 import jp.naist.sd.kenja.factextractor.ast.ASTCompilation;
@@ -50,8 +52,9 @@ public class GitTreeCreator {
     try {
       Repository repo = new FileRepository(repoDir);
 
-      for (String line : IOUtils.readLines(System.in)) {
-        line = StringUtils.strip(line);
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      String line;
+      while ( (line = br.readLine()) != null) {
         root = new Tree("");
 
         ObjectId obj = ObjectId.fromString(line);
@@ -60,7 +63,6 @@ public class GitTreeCreator {
         char[] src = IOUtils.toCharArray(loader.openStream());
         File outputFile = new File(syntaxTreeDirPath, line);
         parseSourcecodeAndWriteSyntaxTree(src, outputFile);
-
       }
     } catch (IOException e) {
       e.printStackTrace();
