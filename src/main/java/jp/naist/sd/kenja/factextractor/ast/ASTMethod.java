@@ -28,6 +28,11 @@ public class ASTMethod implements Treeable {
   private Blob parameters;
 
   /**
+   * A Blob isntance corresponding to local variables in the method.
+   */
+  private Blob variables;
+
+  /**
    * root Tree of a Method.
    */
   private Tree root;
@@ -41,6 +46,8 @@ public class ASTMethod implements Treeable {
    * file name of method parameter.
    */
   private static final String PARAMETERS_BLOB_NAME = "parameters";
+
+  private static final String VARIABLES_BLOB_NAME = "variables";
 
   /**
    * True if method is a constructor.
@@ -72,6 +79,7 @@ public class ASTMethod implements Treeable {
     isConstructor = node.isConstructor();
     setBody(node);
     setParameters(node.parameters());
+    setVariables(node);
   }
 
   /**
@@ -140,6 +148,26 @@ public class ASTMethod implements Treeable {
       parameterBody += "\n";
     }
     parameters.setBody(parameterBody);
+  }
+
+  /**
+   * Read and set local variables to the Blob.
+   * @param node
+   */
+  private void setVariables(MethodDeclaration node) {
+    variables = new Blob(VARIABLES_BLOB_NAME);
+    root.append(variables);
+
+    VariableDeclarationVisitor visitor = new VariableDeclarationVisitor();
+    node.getBody().accept(visitor);
+
+    StringBuilder body = new StringBuilder();
+    for (String variable : visitor.getVariables()) {
+      body.append(variable);
+      body.append("\n");
+    }
+
+    variables.setBody(body.toString());
   }
 
   /**
