@@ -160,6 +160,7 @@ public class ASTMethod implements Treeable {
 
     VariableDeclarationVisitor visitor = new VariableDeclarationVisitor();
     node.getBody().accept(visitor);
+    visitor.sortVariableList();
 
     StringBuilder body = new StringBuilder();
     for (String variable : visitor.getVariables()) {

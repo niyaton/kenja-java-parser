@@ -1,5 +1,6 @@
 package jp.naist.sd.kenja.factextractor.ast;
 
+import com.google.common.collect.Ordering;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
@@ -16,6 +17,10 @@ public class VariableDeclarationVisitor extends ASTVisitor {
 
     public List<String> getVariables() {
         return variables;
+    }
+
+    public void sortVariableList() {
+        variables = Ordering.from(String.CASE_INSENSITIVE_ORDER).sortedCopy(variables);
     }
 
     @Override
