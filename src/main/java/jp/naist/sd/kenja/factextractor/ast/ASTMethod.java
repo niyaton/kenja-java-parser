@@ -8,6 +8,7 @@ import jp.naist.sd.kenja.factextractor.Treeable;
 
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 
 /**
  * A class which represents Method of Java for Historage.
@@ -28,6 +29,11 @@ public class ASTMethod implements Treeable {
   private Blob parameters;
 
   /**
+   * A Blob instance corresponding to method return type.
+   */
+  private Blob returns;
+
+  /**
    * root Tree of a Method.
    */
   private Tree root;
@@ -41,6 +47,11 @@ public class ASTMethod implements Treeable {
    * file name of method parameter.
    */
   private static final String PARAMETERS_BLOB_NAME = "parameters";
+
+  /**
+   * file name of method return type.
+   */
+  private static final String RETURN_BLOB_NAME = "return";
 
   /**
    * True if method is a constructor.
@@ -72,6 +83,10 @@ public class ASTMethod implements Treeable {
     isConstructor = node.isConstructor();
     setBody(node);
     setParameters(node.parameters());
+
+    if (!isConstructor) {
+      setReturnType(node.getReturnType2());
+    }
   }
 
   /**
@@ -140,6 +155,19 @@ public class ASTMethod implements Treeable {
       parameterBody += "\n";
     }
     parameters.setBody(parameterBody);
+  }
+
+  /**
+   * Read and set method return type to the Blob.
+   *
+   * @param returnType
+   *          type of return value
+   */
+  private void setReturnType(Type returnType) {
+    returns = new Blob(RETURN_BLOB_NAME);
+    root.append(returns);
+
+    returns.setBody(returnType.toString() + "\n");
   }
 
   /**
