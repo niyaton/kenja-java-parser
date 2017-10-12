@@ -12,7 +12,7 @@ import org.eclipse.jdt.core.dom.Type;
 
 /**
  * A class which represents Method of Java for Historage.
- * 
+ *
  * @author Kenji Fujiwara
  *
  */
@@ -72,7 +72,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Factory method of ASTMethod from MethodDeclaration of Eclipse AST.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    */
@@ -84,14 +84,15 @@ public class ASTMethod implements Treeable {
     setBody(node);
     setParameters(node.parameters());
 
-    if (!isConstructor) {
-      setReturnType(node.getReturnType2());
+    Type returnType = node.getReturnType2();
+    if (returnType != null) {
+      setReturnType(returnType);
     }
   }
 
   /**
    * Return root tree name.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    * @return name of root tree
@@ -119,7 +120,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Read and set method body to the Blob.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    */
@@ -136,7 +137,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Read and set method parameters to the Blob.
-   * 
+   *
    * @param parametersList
    *          list of parameters
    */
@@ -172,7 +173,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * return directory name of the method.
-   * 
+   *
    * @return directory name of the method
    */
   public String getName() {
@@ -181,7 +182,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * avoid conflicting blob name.
-   * 
+   *
    * @param number
    *          unique number of conflicted method
    */
@@ -195,7 +196,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Return True if method is constructor.
-   * 
+   *
    * @return method is constructor or not.
    */
   public boolean isConstructor() {
@@ -204,7 +205,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Factory method of ASTMethod.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    * @return ASTMethod instance created from MethodDeclaration
