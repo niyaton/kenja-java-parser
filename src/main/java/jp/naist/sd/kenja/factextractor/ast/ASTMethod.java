@@ -8,10 +8,11 @@ import jp.naist.sd.kenja.factextractor.Treeable;
 
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 
 /**
  * A class which represents Method of Java for Historage.
- * 
+ *
  * @author Kenji Fujiwara
  *
  */
@@ -28,6 +29,11 @@ public class ASTMethod implements Treeable {
   private Blob parameters;
 
   /**
+   * A Blob instance corresponding to method return type.
+   */
+  private Blob returns;
+
+  /**
    * root Tree of a Method.
    */
   private Tree root;
@@ -41,6 +47,11 @@ public class ASTMethod implements Treeable {
    * file name of method parameter.
    */
   private static final String PARAMETERS_BLOB_NAME = "parameters";
+
+  /**
+   * file name of method return type.
+   */
+  private static final String RETURN_BLOB_NAME = "return";
 
   /**
    * True if method is a constructor.
@@ -61,7 +72,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Factory method of ASTMethod from MethodDeclaration of Eclipse AST.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    */
@@ -72,11 +83,16 @@ public class ASTMethod implements Treeable {
     isConstructor = node.isConstructor();
     setBody(node);
     setParameters(node.parameters());
+
+    Type returnType = node.getReturnType2();
+    if (returnType != null) {
+      setReturnType(returnType);
+    }
   }
 
   /**
    * Return root tree name.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    * @return name of root tree
@@ -104,7 +120,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Read and set method body to the Blob.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    */
@@ -121,7 +137,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Read and set method parameters to the Blob.
-   * 
+   *
    * @param parametersList
    *          list of parameters
    */
@@ -143,8 +159,21 @@ public class ASTMethod implements Treeable {
   }
 
   /**
+   * Read and set method return type to the Blob.
+   *
+   * @param returnType
+   *          type of return value
+   */
+  private void setReturnType(Type returnType) {
+    returns = new Blob(RETURN_BLOB_NAME);
+    root.append(returns);
+
+    returns.setBody(returnType.toString() + "\n");
+  }
+
+  /**
    * return directory name of the method.
-   * 
+   *
    * @return directory name of the method
    */
   public String getName() {
@@ -153,7 +182,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * avoid conflicting blob name.
-   * 
+   *
    * @param number
    *          unique number of conflicted method
    */
@@ -167,7 +196,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Return True if method is constructor.
-   * 
+   *
    * @return method is constructor or not.
    */
   public boolean isConstructor() {
@@ -176,7 +205,7 @@ public class ASTMethod implements Treeable {
 
   /**
    * Factory method of ASTMethod.
-   * 
+   *
    * @param node
    *          MethodDeclaration of Eclipse AST
    * @return ASTMethod instance created from MethodDeclaration
