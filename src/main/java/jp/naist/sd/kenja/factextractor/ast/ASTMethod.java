@@ -2,10 +2,14 @@ package jp.naist.sd.kenja.factextractor.ast;
 
 import java.util.List;
 
+import antlr.Token;
 import jp.naist.sd.kenja.factextractor.Blob;
 import jp.naist.sd.kenja.factextractor.Tree;
 import jp.naist.sd.kenja.factextractor.Treeable;
 
+import org.eclipse.jdt.core.ToolFactory;
+import org.eclipse.jdt.core.compiler.IScanner;
+import org.eclipse.jdt.core.compiler.ITerminalSymbols;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 
@@ -28,6 +32,11 @@ public class ASTMethod implements Treeable {
   private Blob parameters;
 
   /**
+   * A Blob instance corresponding to tokenized method-body.
+   */
+  private Blob tokens;
+
+  /**
    * root Tree of a Method.
    */
   private Tree root;
@@ -41,6 +50,10 @@ public class ASTMethod implements Treeable {
    * file name of method parameter.
    */
   private static final String PARAMETERS_BLOB_NAME = "parameters";
+  /**
+   *  file name of tokenized method body.
+   */
+  private static final String TOKENS_BLOB_NAME = "tokens";
 
   /**
    * True if method is a constructor.
@@ -72,6 +85,7 @@ public class ASTMethod implements Treeable {
     isConstructor = node.isConstructor();
     setBody(node);
     setParameters(node.parameters());
+    setTokens(node);
   }
 
   /**
@@ -140,6 +154,49 @@ public class ASTMethod implements Treeable {
       parameterBody += "\n";
     }
     parameters.setBody(parameterBody);
+  }
+
+  /**
+   * Read and set tokenized method body to the Blob.
+   *
+   * @param node
+   *          MethodDeclaration of Eclipse AST
+   */
+  private void setTokens(MethodDeclaration node){
+    tokens = new Blob(TOKENS_BLOB_NAME);
+    String tokensBody = "";
+    IScanner scanner = ToolFactory.createScanner(true,false,false,"1.9");
+    scanner.setSource(node.getBody().toString().toCharArray());
+    int tokenType;
+    /*special token types
+      5: identifier
+      40: number literal
+      45: string literal
+     */
+    try {
+      while ((tokenType = scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) {
+        switch(tokenType){
+          case 5://identifier
+            tokensBody+="id";
+            break;
+          case 40://number literal
+            tokensBody+="numberLiteral";
+            break;
+          case 45:
+            tokensBody+="stringLiteral";
+            break;
+          default:
+            tokensBody+=new String(scanner.getCurrentTokenSource());
+            break;
+        }
+        tokensBody+="\n";
+      }
+    }
+    catch(Exception e){
+
+    }
+    tokens.setBody(tokensBody);
+    root.append(tokens);
   }
 
   /**
